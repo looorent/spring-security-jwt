@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/looorent/spring-security-jwt.svg?branch=master)](https://travis-ci.org/looorent/spring-security-jwt)
+
 # Spring JWT Authentication
 
 This JAR is relevant to you if:
