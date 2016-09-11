@@ -29,7 +29,7 @@ import static org.springframework.security.config.http.SessionCreationPolicy.NEV
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @Order(ACCESS_OVERRIDE_ORDER)
 @EnableConfigurationProperties({HttpHeaderProperties.class, AuthenticationProperties.class})
-public class JwtSecurityConfiguration extends WebSecurityConfigurerAdapter {
+class JwtSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UserDetailsFactory userDetailsFactory;

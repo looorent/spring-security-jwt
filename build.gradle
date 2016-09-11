@@ -2,7 +2,7 @@ apply plugin: 'idea'
 apply plugin: 'java'
 apply plugin: 'maven-publish'
 
-version = '0.1'
+version = '0.2'
 group = 'be.looorent'
 description = 'Create stateless security on your Spring endpoints using JWT.'
 sourceCompatibility = 1.8
@@ -36,6 +36,18 @@ def repoUser = hasProperty('ossrhUser') ? ossrhUser : System.getenv('ossrhUser')
 def repoPassword = hasProperty('ossrhPassword') ? ossrhPassword : System.getenv('ossrhUser')
 
 apply plugin: 'io.codearte.nexus-staging'
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId 'be.looorent'
+            artifactId 'spring-security-jwt'
+            version '0.2'
+
+            from components.java
+        }
+    }
+}
 
 if (project.hasProperty('release')) {
     allprojects {

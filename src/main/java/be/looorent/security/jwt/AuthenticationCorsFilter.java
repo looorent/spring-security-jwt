@@ -9,7 +9,7 @@ import org.springframework.web.filter.CorsFilter;
  * Cors Filter configured using properties from HttpHeaderProperties.
  * @author Lorent Lempereur - lorent.lempereur.dev@gmail.com
  */
-public class AuthenticationCorsFilter extends CorsFilter {
+class AuthenticationCorsFilter extends CorsFilter {
 
     @Autowired
     public AuthenticationCorsFilter(HttpHeaderProperties properties) {

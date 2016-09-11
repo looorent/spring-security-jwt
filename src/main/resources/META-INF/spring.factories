@@ -1,0 +1,1 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=be.looorent.security.jwt.JwtSecurityAutoConfiguration
