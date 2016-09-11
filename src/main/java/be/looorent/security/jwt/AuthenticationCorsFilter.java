@@ -22,6 +22,7 @@ public class AuthenticationCorsFilter extends CorsFilter {
         properties.getAllowedOrigins().forEach(config::addAllowedOrigin);
         properties.getAllowedMethods().forEach(config::addAllowedMethod);
         properties.getAllowedHeaders().forEach(config::addAllowedHeader);
+        config.setMaxAge(properties.getCacheMaxAge());
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
         return source;

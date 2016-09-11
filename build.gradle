@@ -30,25 +30,77 @@ jar {
     }
 }
 
-task sourceJar(type: Jar) {
-    from sourceSets.main.allJava
-    classifier "sources"
+apply plugin: 'io.codearte.nexus-staging'
+
+if (project.hasProperty('release')) {
+    subprojects {
+        task javadocJar(type: Jar) {
+            classifier = 'javadoc'
+            from javadoc
+        }
+
+        task sourcesJar(type: Jar) {
+            classifier = 'sources'
+            from sourceSets.main.allSource
+        }
+
+        artifacts {
+            archives javadocJar, sourcesJar
+        }
+    }
+
+    allprojects {
+        apply plugin: 'signing'
+        apply plugin: 'maven'
+
+        signing {
+            sign configurations.archives
+        }
+
+        uploadArchives {
+            repositories {
+                mavenDeployer {
+                    beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+                    repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                        authentication(userName: ossrhUser, password: ossrhPassword)
+                    }
+
+                    pom.project {
+                        name project.name
+                        description project.description
+                        packaging 'jar'
+                        url 'https://github.com/looorent/spring-security-jwt'
+
+                        scm {
+                            connection 'scm:git:https://github.com/looorent/spring-security-jwt'
+                            developerConnection 'scm:git:git@github.com:looorent/spring-security-jwt.git'
+                            url 'https://github.com/looorent/spring-security-jwt'
+                        }
+
+                        licenses {
+                            license {
+                                name 'The MIT License (MIT)'
+                                url 'http://opensource.org/licenses/MIT'
+                                distribution 'repo'
+                            }
+                        }
+
+                        developers {
+                            developer {
+                                id = 'youraccount'
+                                name = 'Lorent Lempereur'
+                                email = 'lorent.lempereur.dev@gmail.com'
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
-publishing {
-    repositories {
-        maven {
-            url "$buildDir/repo"
-        }
-    }
 
-    publications {
-        mavenJava(MavenPublication) {
-            groupId 'be.looorent'
-            artifactId 'spring-security-jwt'
-            version version
-            from components.java
-
-            artifact sourceJar
-        }
-    }
+nexusStaging {
+    username = ossrhUser
+    password = ossrhPassword
 }
