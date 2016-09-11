@@ -73,13 +73,6 @@ public class JwtSecurityConfiguration extends WebSecurityConfigurerAdapter {
         return new AuthenticationFilter(authenticationManagerBean(), entryPoint);
     }
 
-    /**
-     * We do this to ensure our Filter is only loaded once into Application Context
-     * <p>
-     * If using Spring Boot, any GenericFilterBean in the context will be automatically added to the filter chain.
-     * Since we want to support Servlet 2.x and 3.x we should not extend OncePerRequestFilter therefore instead
-     * we explicitly define FilterRegistrationBean and disable.
-     */
     @Bean
     public FilterRegistrationBean jwtAuthenticationFilterRegistration(final AuthenticationFilter filter) {
         final FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean(filter);
