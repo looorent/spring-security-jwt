@@ -30,6 +30,10 @@ jar {
     }
 }
 
+task sourceJar(type: Jar) {
+    from sourceSets.main.allJava
+    classifier "sources"
+}
 publishing {
     repositories {
         maven {
@@ -43,6 +47,8 @@ publishing {
             artifactId 'spring-security-jwt'
             version version
             from components.java
+
+            artifact sourceJar
         }
     }
 }
