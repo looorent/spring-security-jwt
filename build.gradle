@@ -112,7 +112,7 @@ if (project.hasProperty('release')) {
 
                         developers {
                             developer {
-                                id = 'youraccount'
+                                id = 'looorent'
                                 name = 'Lorent Lempereur'
                                 email = 'lorent.lempereur.dev@gmail.com'
                             }

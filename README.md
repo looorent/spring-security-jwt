@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/looorent/spring-security-jwt.svg?branch=master)](https://travis-ci.org/looorent/spring-security-jwt)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/be.looorent/spring-security-jwt/badge.svg)](http://search.maven.org/#artifactdetails%7Cbe.looorent%7Cspring-security-jwt)
 
 # Spring JWT Authentication
 
@@ -26,33 +27,24 @@ This JAR is originally developed for my own needs. Do not hesitate to extend it.
 
 ### 1) Add the JAR to your classpath
 
-For instance:
+Add the JAR to the classpath will enable JWT security automatically if your Spring Boot application enables auto-configurations (_i.e._ 
+@EnableAutoConfiguration`).
+It is available on _Maven Central_.
+To do so, for instance:
 * with Gradle:
 ```groovy
-compile "be.looorent:spring-security-jwt:0.1"
+compile "be.looorent:spring-security-jwt:0.2"
 ```
 * or with Maven:
 ```xml
 <dependency>
     <groupId>be.looorent</groupId>
     <artifactId>spring-security-jwt</artifactId>
-    <version>0.1</version>
+    <version>0.2</version>
 </dependency>
 ```
 
-### 2) Enable the configuration 
-
-* For now, no `AutoConfiguration` class is provided. Therefore, you have to enable ComponentScan on package `be.looorent.security.jwt`. _E.g._ in Java:
-```java
-...
-@ComponentScan(basePackages = {"be.looorent.security.jwt"})
-@SpringBootApplication
-class YourApplicationMainClass {
-    ...
-}
-```
-
-### 3) Define the authentication configuration
+### 2) Define the authentication configuration
 
 In your properties, (_e.g._ `application.yml`), 3 properties must be defined:
 * `authentication.tokenIssuer`: The JWT issuer, which is check beside the private key. Type: `String` 
@@ -67,7 +59,7 @@ authentication:
   publicRoute: /open/**
 ```
 
-### 4) Define CORS
+### 3) Define CORS
 
 This JAR also define a CORS filter on top of each request that is made to your Spring application.
 In your properties, (_e.g._ `application.yml`), 4 properties must be defined:
@@ -100,7 +92,7 @@ http:
     cacheMaxAge: 3600
 ```
 
-### 5) Provide an implementation of `UserDetailsFactory`
+### 4) Provide an implementation of `UserDetailsFactory`
 
 In order to let you handle your String `UserDetails` (structure, permissions, granted authorities, ...), An implementation of `UserDetailsFactory` must be provided. 
 This `UserDetails` will be added to the Security Context of each authenticated request.
@@ -151,7 +143,7 @@ class UserPrincipalFactoryImpl implements UserDetailsFactory {
 Where `UserPrincipal` is your own `UserDetails` implementation (which, in this example, contains the user retrieved from database).
 
 
-### 6) Define a `HandlerMethodArgumentResolver` to always get the current user (Optional)
+### 5) Define a `HandlerMethodArgumentResolver` to always get the current user (Optional)
 
 If you wan to inject your `User` object into your controllers' methods, you can provide an implementation of String's `HandlerMethodArgumentResolver`.
 See http://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/method/support/HandlerMethodArgumentResolver.html 
@@ -159,7 +151,19 @@ See http://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springfr
 Here you are!
 
 
+## How to disable this configuration
+
+If your Spring application enables auto-configurations, this security configuration will be enabled by default. To disable it, exclude `JwtSecurityAutoConfiguration` from auto-configurations. 
+```
+@EnableAutoConfiguration(exclude=[JwtSecurityAutoConfiguration])
+@SpringBootApplication
+class YourApplicationMainClass {
+    ...
+}
+```
+
 ## Future work
 
 * More tests
+* More documentation
 * Public key support
