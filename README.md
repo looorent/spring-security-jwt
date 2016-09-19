@@ -163,6 +163,8 @@ class YourApplicationMainClass {
 
 ## Error handling
 
+### Status code
+
 These error HTTP statuses can be returned for each authenticated request:
 * `412` when the user referenced by the token does not exist (see the exception of type `UserDoesNotExistException` that can be returned by your own implementation). In this situation, an additional header response `Authentication-User-Does-Not-Exist` is set to `true`. 
 * `401` when the token is refused. The reason is written in the response body. These reasons are:
@@ -172,6 +174,15 @@ These error HTTP statuses can be returned for each authenticated request:
     * `jwt_wrong_signature` :  indicates that either calculating a signature or verifying an existing signature of a JWT failed.
     * Another unexpected message
 * `403` if another authentication error occurs
+
+### Response format
+
+The body response is structured as followed:
+```
+{
+    "reason": "XXX"
+}
+```
 
 ## Future work
 

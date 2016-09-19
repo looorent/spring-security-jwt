@@ -18,6 +18,10 @@ class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 
     private static final String OPTIONS_METHOD = "OPTIONS";
     private static final String USER_DOES_NOT_EXISTS_HEADER = "Authentication-User-Does-Not-Exist";
+    private static final String APPLICATION_JSON = "application/json";
+    private static final String UTF_8 = "UTF-8";
+    private static final String USER_DOES_NOT_EXIST = "user_does_not_exist";
+    private static final String TRUE = "true";
 
     @Override
     public void commence(HttpServletRequest request,
@@ -38,17 +42,23 @@ class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 
     private void requestIsRefused(HttpServletResponse response,
                                   AuthenticationException authException) throws IOException {
-        response.sendError(SC_FORBIDDEN, authException.getMessage());
+        formatResponse(response, SC_FORBIDDEN, authException.getMessage());
     }
 
     private void tokenHasBeenRefused(HttpServletResponse response,
                                      TokenException authException) throws IOException {
-        response.sendError(SC_UNAUTHORIZED, authException.getMessage());
+        formatResponse(response, SC_UNAUTHORIZED, authException.getMessage());
     }
 
     private void userDoesNotExistYet(HttpServletResponse response) throws IOException {
-        response.sendError(SC_PRECONDITION_FAILED, "user_does_not_exist");
-        response.setHeader(USER_DOES_NOT_EXISTS_HEADER, "true");
+        formatResponse(response, SC_PRECONDITION_FAILED, USER_DOES_NOT_EXIST);
+        response.setHeader(USER_DOES_NOT_EXISTS_HEADER, TRUE);
+    }
+
+    private void formatResponse(HttpServletResponse response, int status, String reason) throws IOException {
+        response.setContentType(APPLICATION_JSON);
+        response.setCharacterEncoding(UTF_8);
+        response.sendError(status, "{\"reason\": \""+reason+"\"}");
     }
 
     private boolean isPreflight(HttpServletRequest request) {
