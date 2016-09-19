@@ -21,7 +21,6 @@ This JAR is originally developed for my own needs. Do not hesitate to extend it.
 ## Choices
 
 * All requests must be authenticated except if they match `authentication.publicRoute`.
-* If a required user does not exist, the response has a Status 412 with a header `Authentication-User-Does-Not-Exist` set to `true`.
 
 ## Getting started
 
@@ -33,14 +32,14 @@ It is available on _Maven Central_.
 To do so, for instance:
 * with Gradle:
 ```groovy
-compile "be.looorent:spring-security-jwt:0.2"
+compile "be.looorent:spring-security-jwt:0.3"
 ```
 * or with Maven:
 ```xml
 <dependency>
     <groupId>be.looorent</groupId>
     <artifactId>spring-security-jwt</artifactId>
-    <version>0.2</version>
+    <version>0.3</version>
 </dependency>
 ```
 
@@ -161,6 +160,18 @@ class YourApplicationMainClass {
     ...
 }
 ```
+
+## Error handling
+
+These error HTTP statuses can be returned for each authenticated request:
+* `412` when the user referenced by the token does not exist (see the exception of type `UserDoesNotExistException` that can be returned by your own implementation). In this situation, an additional header response `Authentication-User-Does-Not-Exist` is set to `true`. 
+* `401` when the token is refused. The reason is written in the response body. These reasons are:
+    * `jws_unsupported_by_application` : when receiving a JWT in a particular format/configuration that does not match the format expected by the application.
+    * `jws_malformed` : indicates that a JWT was not correctly constructed and should be rejected.
+    * `jwt_expired` : indicates that a JWT was accepted after it expired and must be rejected.
+    * `jwt_wrong_signature` :  indicates that either calculating a signature or verifying an existing signature of a JWT failed.
+    * Another unexpected message
+* `403` if another authentication error occurs
 
 ## Future work
 

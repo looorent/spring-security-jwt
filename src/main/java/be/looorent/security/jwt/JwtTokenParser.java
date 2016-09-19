@@ -1,10 +1,10 @@
 package be.looorent.security.jwt;
 
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtParser;
-import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import static be.looorent.security.jwt.JwtExceptionType.*;
 
 /**
  * Wraps the logic to verify & parse a JWT and returns its content.
@@ -24,6 +24,18 @@ class JwtTokenParser {
     public Claims parse(UnauthenticatedToken token) throws TokenException {
         try {
             return jwtVerifier.parseClaimsJws(token.getJwtAsString()).getBody();
+        }
+        catch (UnsupportedJwtException e) {
+            throw new TokenException(UNSUPPORTED);
+        }
+        catch (MalformedJwtException e) {
+            throw new TokenException(MALFORMED);
+        }
+        catch (SignatureException e) {
+            throw new TokenException(WRONG_SIGNATURE);
+        }
+        catch (ExpiredJwtException e) {
+            throw new TokenException(EXPIRED);
         }
         catch (Exception e) {
             throw new TokenException(e.getMessage());

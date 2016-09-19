@@ -30,30 +30,25 @@ class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
             userDoesNotExistYet(response);
         }
         else if (authenticationException instanceof TokenException) {
-            tokenHasBeenRefused(response, authenticationException);
+            tokenHasBeenRefused(response, (TokenException) authenticationException);
         } else {
             requestIsRefused(response, authenticationException);
         }
     }
 
-    private void requestIsRefused(HttpServletResponse response, AuthenticationException authException) throws IOException {
+    private void requestIsRefused(HttpServletResponse response,
+                                  AuthenticationException authException) throws IOException {
         response.sendError(SC_FORBIDDEN, authException.getMessage());
-        response.getWriter().println(formatErrorMessage(authException, SC_FORBIDDEN));
     }
 
-    private void tokenHasBeenRefused(HttpServletResponse response, AuthenticationException authException) throws IOException {
+    private void tokenHasBeenRefused(HttpServletResponse response,
+                                     TokenException authException) throws IOException {
         response.sendError(SC_UNAUTHORIZED, authException.getMessage());
-        response.getWriter().println(formatErrorMessage(authException, SC_UNAUTHORIZED));
     }
 
     private void userDoesNotExistYet(HttpServletResponse response) throws IOException {
-        response.sendError(SC_PRECONDITION_FAILED, "This user does not exist.");
+        response.sendError(SC_PRECONDITION_FAILED, "user_does_not_exist");
         response.setHeader(USER_DOES_NOT_EXISTS_HEADER, "true");
-        response.getWriter().println("User does not exists");
-    }
-
-    private String formatErrorMessage(Exception authenticationException, int statusCode) {
-        return "HTTP Status " + statusCode + " - " + authenticationException.getMessage();
     }
 
     private boolean isPreflight(HttpServletRequest request) {

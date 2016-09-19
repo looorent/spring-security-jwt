@@ -14,6 +14,10 @@ class TokenException extends AuthenticationException {
         super(message);
     }
 
+    TokenException(JwtExceptionType type) {
+        super(type.getCode());
+    }
+
     TokenException(String message, Throwable t) {
         super(message, t);
     }
