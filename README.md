@@ -26,27 +26,27 @@ This JAR is originally developed for my own needs. Do not hesitate to extend it.
 
 ### 1) Add the JAR to your classpath
 
-Add the JAR to the classpath will enable JWT security automatically if your Spring Boot application enables auto-configurations (_i.e._ 
+Add the JAR to the classpath will enable JWT security automatically if your Spring Boot application enables auto-configurations (_i.e._
 @EnableAutoConfiguration`).
 It is available on _Maven Central_.
 To do so, for instance:
 * with Gradle:
 ```groovy
-compile "be.looorent:spring-security-jwt:0.3"
+compile "be.looorent:spring-security-jwt:0.4"
 ```
 * or with Maven:
 ```xml
 <dependency>
     <groupId>be.looorent</groupId>
     <artifactId>spring-security-jwt</artifactId>
-    <version>0.3</version>
+    <version>0.4</version>
 </dependency>
 ```
 
 ### 2) Define the authentication configuration
 
 In your properties, (_e.g._ `application.yml`), 3 properties must be defined:
-* `authentication.tokenIssuer`: The JWT issuer, which is check beside the private key. Type: `String` 
+* `authentication.tokenIssuer`: The JWT issuer, which is check beside the private key. Type: `String`
 * `authentication.tokenSecretKey`: The JWT secret key. This key *must not be Base64-encoded*. Type: `String`
 * `authentication.publicRoute`: Ant pattern for routes that do not require a valid token. Do not mind what HTTP method is used. Type: `String`
 
@@ -93,7 +93,7 @@ http:
 
 ### 4) Provide an implementation of `UserDetailsFactory`
 
-In order to let you handle your String `UserDetails` (structure, permissions, granted authorities, ...), An implementation of `UserDetailsFactory` must be provided. 
+In order to let you handle your String `UserDetails` (structure, permissions, granted authorities, ...), An implementation of `UserDetailsFactory` must be provided.
 This `UserDetails` will be added to the Security Context of each authenticated request.
 
 *This implementation MUST BE registered as a Spring Bean.*
@@ -128,7 +128,7 @@ class UserPrincipalFactoryImpl implements UserDetailsFactory {
     private User createUserFromBody(HttpServletRequest request) {
         ...
     }
-    
+
     private boolean isForUserCreation(HttpServletRequest request) {
         ...
     }
@@ -145,14 +145,14 @@ Where `UserPrincipal` is your own `UserDetails` implementation (which, in this e
 ### 5) Define a `HandlerMethodArgumentResolver` to always get the current user (Optional)
 
 If you wan to inject your `User` object into your controllers' methods, you can provide an implementation of String's `HandlerMethodArgumentResolver`.
-See http://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/method/support/HandlerMethodArgumentResolver.html 
+See http://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/method/support/HandlerMethodArgumentResolver.html
 
 Here you are!
 
 
 ## How to disable this configuration
 
-If your Spring application enables auto-configurations, this security configuration will be enabled by default. To disable it, exclude `JwtSecurityAutoConfiguration` from auto-configurations. 
+If your Spring application enables auto-configurations, this security configuration will be enabled by default. To disable it, exclude `JwtSecurityAutoConfiguration` from auto-configurations.
 ```
 @EnableAutoConfiguration(exclude=[JwtSecurityAutoConfiguration])
 @SpringBootApplication
@@ -166,7 +166,7 @@ class YourApplicationMainClass {
 ### Status code
 
 These error HTTP statuses can be returned for each authenticated request:
-* `412` when the user referenced by the token does not exist (see the exception of type `UserDoesNotExistException` that can be returned by your own implementation). In this situation, an additional header response `Authentication-User-Does-Not-Exist` is set to `true`. 
+* `412` when the user referenced by the token does not exist (see the exception of type `UserDoesNotExistException` that can be returned by your own implementation). In this situation, an additional header response `Authentication-User-Does-Not-Exist` is set to `true`.
 * `401` when the token is refused. The reason is written in the response body. These reasons are:
     * `jws_unsupported_by_application` : when receiving a JWT in a particular format/configuration that does not match the format expected by the application.
     * `jws_malformed` : indicates that a JWT was not correctly constructed and should be rejected.
