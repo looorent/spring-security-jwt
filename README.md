@@ -62,7 +62,7 @@ authentication:
 
 This JAR also define a CORS filter on top of each request that is made to your Spring application.
 In your properties, (_e.g._ `application.yml`), 4 properties must be defined:
-* `http.headers.allowedOrigins`: All allowed origins (_e.g._ a client web application domain).  Type: `List<String>`
+* `http.headers.allowedOrigins`: All allowed origins (_e.g._ a client web application domain). This values can be Java regular expressions (this feature is provided by a custom implementation `be.looorent.security.jwt.RegexCorsConfiguration`)  Type: `List<String>`
 * `http.headers.allowedMethods`: All allowed HTTP methods. Type: `List<String>`
 * `http.headers.allowedHeaders`: List of headers that a pre-flight request can list as allowed for use during an actual request. `Authorization` must always be present in this list. Type: `List<String>`
 * `http.headers.cacheMaxAge`: Configure how long, in seconds, the response from a pre-flight request can be cached by clients. Type: `Long`

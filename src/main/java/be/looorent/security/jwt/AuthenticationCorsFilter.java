@@ -17,7 +17,7 @@ class AuthenticationCorsFilter extends CorsFilter {
     }
 
     private static UrlBasedCorsConfigurationSource createConfiguration(HttpHeaderProperties properties) {
-        CorsConfiguration config = new CorsConfiguration();
+        CorsConfiguration config = new RegexCorsConfiguration();
         config.setAllowCredentials(true);
         properties.getAllowedOrigins().forEach(config::addAllowedOrigin);
         properties.getAllowedMethods().forEach(config::addAllowedMethod);
