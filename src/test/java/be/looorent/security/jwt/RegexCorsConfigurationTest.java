@@ -33,12 +33,12 @@ public class RegexCorsConfigurationTest {
     public void checkOriginsWithRegularExpressionHappyPath() {
         String regularExpression = "(https:\\/\\/)([\\-\\w]*)(\\.pouet\\.dev)";
         cors.addAllowedOrigin(regularExpression);
-        assertThat(cors.checkOrigin("https://app.pouet.dev"), is(equalTo(regularExpression)));
+        assertThat(cors.checkOrigin("https://app.pouet.dev"), is(equalTo("https://app.pouet.dev")));
         assertThat(cors.checkOrigin("https://app.pouet.com"), is(nullValue()));
         assertThat(cors.checkOrigin("http://app.pouet.dev"), is(nullValue()));
         assertThat(cors.checkOrigin("https://app.pouet2.dev"), is(nullValue()));
-        assertThat(cors.checkOrigin("https://coincoin.pouet.dev"), is(equalTo(regularExpression)));
-        assertThat(cors.checkOrigin("https://test.pouet.dev"), is(equalTo(regularExpression)));
+        assertThat(cors.checkOrigin("https://coincoin.pouet.dev"), is(equalTo("https://coincoin.pouet.dev")));
+        assertThat(cors.checkOrigin("https://test.pouet.dev"), is(equalTo("https://test.pouet.dev")));
     }
 
     @Test

@@ -41,7 +41,7 @@ class RegexCorsConfiguration extends CorsConfiguration {
             allowedOriginsRegex.add(Pattern.compile(origin));
         }
         catch(PatternSyntaxException e) {
-            LOGGER.warn("Wrong syntax for the origin {} as a regular expression. If this origin is not supposed to be a regular expression, just ignore this error.", origin, e);
+            LOGGER.warn("Wrong syntax for the origin {} as a regular expression. If this origin is not supposed to be a regular expression, just ignore this error.", origin);
         }
     }
 
@@ -54,7 +54,7 @@ class RegexCorsConfiguration extends CorsConfiguration {
     private String checkOriginWithRegularExpression(String requestOrigin) {
         return allowedOriginsRegex.stream()
                 .filter(pattern -> pattern.matcher(requestOrigin).matches())
-                .map(pattern -> pattern.pattern())
+                .map(pattern -> requestOrigin)
                 .findFirst()
                 .orElse(null);
     }

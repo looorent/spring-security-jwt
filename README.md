@@ -32,14 +32,14 @@ It is available on _Maven Central_.
 To do so, for instance:
 * with Gradle:
 ```groovy
-compile "be.looorent:spring-security-jwt:0.4"
+compile "be.looorent:spring-security-jwt:0.5"
 ```
 * or with Maven:
 ```xml
 <dependency>
     <groupId>be.looorent</groupId>
     <artifactId>spring-security-jwt</artifactId>
-    <version>0.4</version>
+    <version>0.5</version>
 </dependency>
 ```
 
@@ -182,6 +182,14 @@ The body response is structured as followed:
 {
     "reason": "XXX"
 }
+```
+
+## How to deploy a new version to Maven central
+
+Following this [great article](http://nemerosa.ghost.io/2015/07/01/publishing-to-the-maven-central-using-gradle/), you should configure your `./gradle/gradle.propreties` file and then:
+
+```
+$ gradle -Prelease uploadArchives closeAndPromoteRepository
 ```
 
 ## Future work
