@@ -32,14 +32,14 @@ It is available on _Maven Central_.
 To do so, for instance:
 * with Gradle:
 ```groovy
-compile "be.looorent:spring-security-jwt:0.5"
+compile "be.looorent:spring-security-jwt:0.6"
 ```
 * or with Maven:
 ```xml
 <dependency>
     <groupId>be.looorent</groupId>
     <artifactId>spring-security-jwt</artifactId>
-    <version>0.5</version>
+    <version>0.6</version>
 </dependency>
 ```
 
