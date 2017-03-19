@@ -58,7 +58,8 @@ class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
     private void formatResponse(HttpServletResponse response, int status, String reason) throws IOException {
         response.setContentType(APPLICATION_JSON);
         response.setCharacterEncoding(UTF_8);
-        response.sendError(status, "{\"reason\": \""+reason+"\"}");
+        response.setStatus(status);
+        response.getWriter().write("{\"reason\": \""+reason+"\"}");
     }
 
     private boolean isPreflight(HttpServletRequest request) {
