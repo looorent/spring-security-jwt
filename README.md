@@ -32,14 +32,14 @@ It is available on _Maven Central_.
 To do so, for instance:
 * with Gradle:
 ```groovy
-compile "be.looorent:spring-security-jwt:0.6"
+compile "be.looorent:spring-security-jwt:0.7"
 ```
 * or with Maven:
 ```xml
 <dependency>
     <groupId>be.looorent</groupId>
     <artifactId>spring-security-jwt</artifactId>
-    <version>0.6</version>
+    <version>0.7</version>
 </dependency>
 ```
 
@@ -172,6 +172,7 @@ These error HTTP statuses can be returned for each authenticated request:
     * `jws_malformed` : indicates that a JWT was not correctly constructed and should be rejected.
     * `jwt_expired` : indicates that a JWT was accepted after it expired and must be rejected.
     * `jwt_wrong_signature` :  indicates that either calculating a signature or verifying an existing signature of a JWT failed.
+    * `jwt_missing_bearer_token`: indicates that no Bearer Token has been provided through the Authorization header.
     * Another unexpected message
 * `403` if another authentication error occurs
 

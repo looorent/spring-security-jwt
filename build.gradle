@@ -2,7 +2,7 @@ apply plugin: 'idea'
 apply plugin: 'java'
 apply plugin: 'maven-publish'
 
-version = '0.6'
+version = '0.7'
 group = 'be.looorent'
 description = 'Create stateless security on your Spring endpoints using JWT.'
 sourceCompatibility = 1.8
@@ -23,7 +23,7 @@ repositories {
 
 dependencies {
     def springBootVersion = '1.4.0.RELEASE'
-    compile 'io.jsonwebtoken:jjwt:0.6.0'
+    compile 'io.jsonwebtoken:jjwt:0.9.0'
     compile "org.springframework.boot:spring-boot:${springBootVersion}"
     compile "org.springframework.boot:spring-boot-starter-security:${springBootVersion}"
     compile 'javax.servlet:javax.servlet-api:3.1.0'
@@ -42,7 +42,7 @@ publishing {
         maven(MavenPublication) {
             groupId 'be.looorent'
             artifactId 'spring-security-jwt'
-            version '0.6'
+            version '0.7'
 
             from components.java
         }

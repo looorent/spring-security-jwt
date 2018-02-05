@@ -55,12 +55,9 @@ class AuthenticationFilter extends GenericFilterBean {
         HttpServletResponse httpResponse = (HttpServletResponse) response;
         if (!httpRequest.getMethod().equals(OPTIONS_METHOD)) {
             try {
-                final UnauthenticatedToken token = new UnauthenticatedToken(extractTokenFrom(httpRequest), httpRequest);
+                final UnauthenticatedToken token = readTokenFrom(httpRequest);
                 final Authentication authenticationResult = authenticationManager.authenticate(token);
                 SecurityContextHolder.getContext().setAuthentication(authenticationResult);
-            }
-            catch (IllegalArgumentException e) {
-                LOG.trace("Impossible to get Authorization header: {}", e.getMessage());
             }
             catch (AuthenticationException failed) {
                 SecurityContextHolder.clearContext();
@@ -69,6 +66,16 @@ class AuthenticationFilter extends GenericFilterBean {
             }
         }
         chain.doFilter(httpRequest, httpResponse);
+    }
+
+    private UnauthenticatedToken readTokenFrom(HttpServletRequest httpRequest) {
+        try {
+            return new UnauthenticatedToken(extractTokenFrom(httpRequest), httpRequest);
+        }
+        catch (IllegalArgumentException e) {
+            LOG.trace("Impossible to get Authorization header: {}", e.getMessage());
+            throw new TokenException("jwt_missing_bearer_token", e);
+        }
     }
 
     private String extractTokenFrom(HttpServletRequest httpRequest) {

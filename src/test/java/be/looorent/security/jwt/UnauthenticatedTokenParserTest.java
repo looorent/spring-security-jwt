@@ -32,7 +32,7 @@ public class UnauthenticatedTokenParserTest {
         tokenClaims.put("FirstName", "Doctor");
         tokenClaims.put("LastName", "Who?");
 
-        token = new UnauthenticatedToken("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwOi8vYW55LWFyYml0cmF0eS1pc3N1ZXIuY29tIiwiaWF0IjoxNDczNjA2OTIzLCJleHAiOjE1MDUxNDI5MjMsImF1ZCI6Ind3dy5leGFtcGxlLmNvbSIsInN1YiI6Impyb2NrZXRAZXhhbXBsZS5jb20iLCJGaXJzdE5hbWUiOiJEb2N0b3IiLCJMYXN0TmFtZSI6Ildobz8iLCJFbWFpbCI6Impyb2NrZXRAZXhhbXBsZS5jb20iLCJSb2xlIjpbIk1hbmFnZXIiLCJQcm9qZWN0IEFkbWluaXN0cmF0b3IiXX0.73wY7APrY9CXgPyp-5zCOEnwFyxSYjCpfZC1owN94tmc670lIUBBv0rThbTDeolyjkEUGmub5xg0hhRDTm217g", null);
+        token = new UnauthenticatedToken("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwOi8vYW55LWFyYml0cmF0eS1pc3N1ZXIuY29tIiwiaWF0IjoxNTE3ODcwMzU5LCJleHAiOjI1Mjc3MTM1NTksImF1ZCI6Ind3dy5leGFtcGxlLmNvbSIsInN1YiI6Impyb2NrZXRAZXhhbXBsZS5jb20iLCJGaXJzdE5hbWUiOiJEb2N0b3IiLCJMYXN0TmFtZSI6Ildobz8iLCJFbWFpbCI6Impyb2NrZXRAZXhhbXBsZS5jb20iLCJSb2xlIjpbIk1hbmFnZXIiLCJQcm9qZWN0IEFkbWluaXN0cmF0b3IiXX0.6sBjhTk3K1oSarwNktrosM715Myc5TlY7c-3eEKifxHASLDchEAC0ZrycEVYFHINrY3U8eLY-0J5ZnuuRyi6_Q", null);
     }
 
     @Test
