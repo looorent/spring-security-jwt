@@ -81,23 +81,24 @@ class JwtSecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
+    protected void configure(final AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(jwtAuthenticationProvider());
     }
 
     @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers(HttpMethod.OPTIONS, "/**");
+    public void configure(WebSecurity web) {
+        web.ignoring()
+            .antMatchers(HttpMethod.OPTIONS, "/**")
+            .antMatchers(authenticationProperties.getPublicRoute());
     }
 
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
-        http.csrf().disable();
-        http.addFilterAfter(jwtFilter(jwtEntryPoint()), SecurityContextPersistenceFilter.class)
-                .addFilterBefore(corsFilter(), AuthenticationFilter.class);
-        http.authorizeRequests()
-                .antMatchers(authenticationProperties.getPublicRoute()).permitAll()
-                .anyRequest().authenticated();
-        http.sessionManagement().sessionCreationPolicy(NEVER);
+        http.csrf().disable()
+            .addFilterAfter(jwtFilter(jwtEntryPoint()), SecurityContextPersistenceFilter.class)
+            .addFilterBefore(corsFilter(), AuthenticationFilter.class)
+            .authorizeRequests().anyRequest().permitAll()
+            .and()
+            .sessionManagement().sessionCreationPolicy(NEVER);
     }
 }
